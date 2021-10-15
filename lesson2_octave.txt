@@ -1,0 +1,90 @@
+% octave snippets :)
+
+
+% L2 Q13
+image = imread("dolphin.png");
+imshow(image);
+disp(size(image));
+disp(class(image));
+
+
+% L2 Q17
+% Inspect image values
+img = imread('dolphin.png');
+imshow(img);
+disp(size(img));
+
+% TODO: Extract a 2D slice between rows 101 to 103 and columns 201 to 203 (inclusive)
+disp(img(101:103, 201:203));
+
+% 81  77  77
+% 81  78  76
+% 82  79  77
+
+
+% L2 Q19
+% Crop an image
+img = imread('bicycle.png');
+imshow(img);
+
+disp(size(img));  % check size
+
+cropped = img(110:310, 10:160);
+imshow(cropped);
+
+% TODO: Find out cropped image size
+disp(size(cropped));
+% 201   151
+
+
+% L2 Q22
+
+% Color planes
+img = imread('fruit.png');
+imshow(img);
+
+disp(size(img));
+
+% TODO: Select a color plane, display it, inspect values from a row
+
+img_blue = img(:, :, 3);
+imshow(img_blue);
+disp(size(img_blue));
+plot(img_blue(23, 0));
+
+
+% L2 Q26
+function output = blend(a, b, alpha)
+    output = alpha*a + (1-alpha)*b;
+endfunction
+
+dolphin = imread('dolphin.png');
+bicycle = imread('bicycle.png');
+
+result = blend(dolphin, bicycle, 0.75);
+imshow(result);
+
+
+% L2 Q31
+% Generate Gaussian noise
+noise = randn([1 1000]);
+[n x] = hist(noise, linspace(-3, 3, 21));
+%disp([x; n]);
+plot(x, n);
+
+% TODO: Try generating other kinds of random numbers.
+%       How about a 2D grid of random Gaussian values?
+
+more_noise = rand([1 100]);
+[n x] = hist(more_noise, linspace(-100, 100, 30));
+%disp([x; n]);
+plot(x, n);
+
+more_noise = randi([1 10000]);
+[n x] = hist(more_noise, linspace(-100, 200, 30));
+%disp([x; n]);
+plot(x, n);
+
+
+
+
