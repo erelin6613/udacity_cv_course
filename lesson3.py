@@ -1,24 +1,18 @@
+import os
 import cv2
-import numpy as np
 
-from utils import read_image
+from utils import read_image, linux_display
 
-img_path1 = "image_samples\racoon.jpg"
+img_path1 = os.path.join("image_samples", "racoon.jpg")
+
 
 def q13():
     image = read_image(img_path1)
-    cv2.imshow("racoon", image)
-    cv2.waitKey(0)
-    filt = cv2.getGaussianKernel()
-    return filt
+    linux_display(image, "racoon")
+    filt = cv2.getGaussianKernel(ksize=5, sigma=1)
+    filtered = cv2.filter2D(src=image, ddepth=-1, kernel=filt)
+    linux_display(filtered, "gaus_blur")
 
-"""
-
-%% TODO: Create a Gaussian filter
-
-%% TODO: Apply it, specifying an edge parameter (try different parameters)
-
-"""
 
 if __name__ == '__main__':
-    print(q13())
+    q13()

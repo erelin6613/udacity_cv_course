@@ -1,11 +1,18 @@
+import os
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from utils import read_image, resize_images
 
-quasar = "image_samples\\quasar.png"
-oak = "image_samples\\oak.jpg"
+quasar = os.path.join("image_samples", "quasar.png")
+oak = os.path.join("image_samples", "oak.jpg")
+
+
+def read_image(img_path, color_space="gray"):
+    image = cv2.imread(img_path)
+    if color_space == "gray":
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    return image
 
 
 def q13():
@@ -48,6 +55,22 @@ def q22():
     plt.show()
 
 
+def resize_images(images):
+    largest_size = [x.shape[0] * x.shape[1] for x in images]
+    largest_id = np.argmax(largest_size)
+    target_dim = (images[largest_id].shape[1], images[largest_id].shape[0])
+
+    resized = []
+    for i, image in enumerate(images):
+        if i == largest_id:
+            resized_image = image
+        else:
+            resized_image = cv2.resize(image, target_dim, interpolation=cv2.INTER_AREA)
+        resized.append(resized_image)
+
+    return resized
+
+
 def blend_images(img1, img2, alpha):
     img1, img2 = resize_images([img1, img2])
     result = img1 * alpha + (1 - alpha) * img2
@@ -69,6 +92,27 @@ def q31():
     print(values[:5], bins[:5])
     # plt.hist(values, 50)
     plt.show()
+
+
+# % L2 Q31
+# % Generate Gaussian noise
+# noise = randn([1 1000]);
+# [n x] = hist(noise, linspace(-3, 3, 21));
+# %disp([x; n]);
+# plot(x, n);
+#
+# % TODO: Try generating other kinds of random numbers.
+# %       How about a 2D grid of random Gaussian values?
+#
+# more_noise = rand([1 100]);
+# [n x] = hist(more_noise, linspace(-100, 100, 30));
+# %disp([x; n]);
+# plot(x, n);
+#
+# more_noise = randi([1 10000]);
+# [n x] = hist(more_noise, linspace(-100, 200, 30));
+# %disp([x; n]);
+# plot(x, n);
 
 
 if __name__ == "__main__":
